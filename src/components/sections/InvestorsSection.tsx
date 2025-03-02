@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card as StandardCard, CardContent as StandardCardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/enhanced-card";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
-import { ArrowRight, CircleDot, Check } from "lucide-react";
-import { useRef } from "react";
+import { ArrowRight, CircleDot, Check, Handshake } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const investmentOpportunities = [
   {
@@ -49,223 +49,166 @@ const investmentOpportunities = [
   },
 ];
 
-const partnerships = [
-  {
-    title: "Technology Partners",
-    description: "We're seeking partnerships with hardware providers, cooling technology specialists, and renewable energy companies.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-12 w-12"
-      >
-        <path d="M16.5 9.4 7.5 4.21" />
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-        <path d="M3.27 6.96 12 12.01l8.73-5.05" />
-        <path d="M12 22.08V12" />
-      </svg>
-    ),
-  },
-  {
-    title: "AI Research Institutions",
-    description: "Partner with us to access sustainable computing resources for AI research and development projects.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-12 w-12"
-      >
-        <circle cx="18" cy="18" r="3" />
-        <circle cx="6" cy="6" r="3" />
-        <path d="M13 6h3a2 2 0 0 1 2 2v7" />
-        <path d="M11 18H8a2 2 0 0 1-2-2V9" />
-      </svg>
-    ),
-  },
-  {
-    title: "Corporate Clients",
-    description: "Secure priority access to our sustainable AI computing resources for your organization's needs.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-12 w-12"
-      >
-        <rect width="18" height="18" x="3" y="3" rx="2" />
-        <path d="M7 7h10" />
-        <path d="M7 12h10" />
-        <path d="M7 17h10" />
-      </svg>
-    ),
-  },
-];
-
 export function InvestorsSection() {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
-
   return (
-    <section className="relative py-20 bg-black text-white overflow-hidden" id="investment">
-      <div className="absolute inset-0 bg-grid-white opacity-[0.03] z-0"></div>
-      <div className="container relative z-10 mx-auto px-4 sm:px-6">
-        <div className="flex flex-col items-center justify-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <CircleDot className="h-4 w-4 text-green-500 animate-pulse" />
-            <span className="text-sm uppercase tracking-wider font-medium">Investment</span>
+    <section className="py-20 bg-black relative" id="investment">
+      {/* Background elements */}
+      <div className="absolute inset-0">
+        {/* Dark background with gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black/90"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-green-500/50 mb-4">
+            <div className="w-2 h-2 bg-green-500"></div>
+            <span className="text-sm font-medium text-green-500">INVESTMENT OPPORTUNITIES</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Investment <span className="text-green-500">Opportunities</span>
+          
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Invest in the <span className="text-green-500">Future</span> of AI
           </h2>
-          <p className="text-gray-400 max-w-3xl mx-auto text-lg">
-            Join us in building Europe's most sustainable AI data center with attractive investment options
+          <p className="text-white/90 max-w-2xl mx-auto text-lg leading-relaxed">
+            Join us in building Bulgaria's first solar-powered AI data center with exceptional returns and sustainable impact
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Investment opportunities */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {investmentOpportunities.map((opportunity, index) => (
-            <motion.div
-              key={opportunity.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="h-full"
-            >
-              <Card className="bg-zinc-900 border-zinc-800 rounded-none h-full flex flex-col hover:border-green-500/50 transition-colors">
-                <CardHeader>
-                  <div className="flex justify-between items-center mb-2">
-                    <CardTitle className="text-xl font-semibold text-white">{opportunity.title}</CardTitle>
-                    <span className={`px-3 py-1 rounded-none text-xs font-medium ${
-                      opportunity.status === "Open" 
-                        ? "bg-green-500/20 text-green-500" 
-                        : opportunity.status === "Coming Soon" 
-                          ? "bg-zinc-500/20 text-zinc-300" 
-                          : "bg-zinc-500/20 text-zinc-300"
-                    }`}>
-                      {opportunity.status}
-                    </span>
-                  </div>
-                  <CardDescription className="text-gray-400">{opportunity.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <div className="mb-6">
-                    <p className="text-sm text-gray-400">Minimum Investment</p>
-                    <p className="text-2xl font-bold text-white">{opportunity.minInvestment}</p>
-                  </div>
-                  <div className="mb-6">
-                    <p className="text-sm text-gray-400">Expected Return</p>
-                    <p className="text-lg font-medium text-green-500">{opportunity.roi}</p>
-                  </div>
+            <StandardCard key={index} className="bg-black border border-white/10 hover:border-green-500/30 transition-all duration-300">
+              <CardHeader className="pb-4">
+                <div className="flex justify-between items-start">
                   <div>
-                    <p className="text-sm text-gray-400 mb-2">Benefits</p>
-                    <ul className="space-y-2">
-                      {opportunity.benefits.map((benefit, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-300">{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <CardTitle className="text-xl font-bold text-white mb-1">{opportunity.title}</CardTitle>
+                    <CardDescription className="text-white/80">{opportunity.description}</CardDescription>
                   </div>
-                </CardContent>
-                <CardFooter>
-                  <Button
-                    asChild
-                    className="w-full bg-green-500 hover:bg-green-600 text-black rounded-none hover:translate-y-[-2px] transition-transform"
-                  >
-                    <Link href="#contact" className="flex items-center justify-center">
-                      Invest Now <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="mt-24">
-          <div className="flex flex-col items-center justify-center text-center mb-16">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <CircleDot className="h-4 w-4 text-green-500 animate-pulse" />
-              <span className="text-sm uppercase tracking-wider font-medium">Partnerships</span>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Partnership <span className="text-green-500">Opportunities</span>
-            </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              We're looking for strategic partners to join us in our mission to build the most sustainable AI data center in Europe
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {partnerships.map((partnership, index) => (
-              <motion.div
-                key={partnership.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                className="bg-zinc-900 border border-zinc-800 rounded-none p-8 hover:border-green-500/50 transition-colors"
-              >
-                <div className="text-green-500 mb-6 mix-blend-luminosity">{partnership.icon}</div>
-                <h4 className="text-xl font-bold mb-3">{partnership.title}</h4>
-                <p className="text-gray-400 mb-6">{partnership.description}</p>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="rounded-none border-zinc-700 text-white hover:bg-green-500 hover:text-black hover:border-green-500 hover:translate-y-[-2px] transition-all"
+                  <div className="px-2 py-1 bg-green-500/10 border border-green-500/30">
+                    <span className="text-xs font-medium text-green-500">{opportunity.status}</span>
+                  </div>
+                </div>
+              </CardHeader>
+              <StandardCardContent className="pb-4">
+                <div className="mb-4">
+                  <div className="text-sm text-white/60 mb-1">Minimum Investment</div>
+                  <div className="text-xl font-bold text-green-500">{opportunity.minInvestment}</div>
+                </div>
+                
+                <div className="mb-4">
+                  <div className="text-sm text-white/60 mb-2">Key Benefits</div>
+                  <ul className="space-y-2">
+                    {opportunity.benefits.map((benefit, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-white/80">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div>
+                  <div className="text-sm text-white/60 mb-1">Return on Investment</div>
+                  <div className="text-lg font-bold text-white">{opportunity.roi}</div>
+                </div>
+              </StandardCardContent>
+              <CardFooter className="pt-2">
+                <Button 
+                  asChild 
+                  variant="custom"
+                  className={cn(
+                    "bg-green-500 text-black hover:bg-white hover:text-green-500 w-full",
+                    "px-5 py-2 font-medium",
+                    "transition-colors duration-300"
+                  )}
                 >
-                  <Link href="#contact" className="flex items-center">
-                    Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                  <Link href="#contact">
+                    Request Details
+                    <ArrowRight className="h-4 w-4 ml-1" />
                   </Link>
                 </Button>
-              </motion.div>
-            ))}
+              </CardFooter>
+            </StandardCard>
+          ))}
+        </div>
+        
+        {/* Partnership opportunities section */}
+        <Card 
+          variant="grid" 
+          className="mt-12 bg-black border-white/10"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-8 md:p-10">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-green-500/50 mb-4">
+                <div className="w-2 h-2 bg-green-500"></div>
+                <span className="text-sm font-medium text-green-500">PARTNERSHIP OPPORTUNITIES</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Become a Strategic Partner</h3>
+              <p className="text-white/90 mb-6 leading-relaxed">
+                We're seeking strategic partnerships with technology providers, energy companies, and AI solution developers to build the most sustainable AI infrastructure in Europe.
+              </p>
+              <ul className="space-y-3 mb-6">
+                <li className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-white/90">Technology integration partnerships</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-white/90">Renewable energy collaborations</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-white/90">AI solution development opportunities</span>
+                </li>
+              </ul>
+              <Button 
+                asChild 
+                variant="custom"
+                className={cn(
+                  "bg-green-500 text-black hover:bg-white hover:text-green-500",
+                  "px-6 py-2 font-medium",
+                  "transition-colors duration-300"
+                )}
+              >
+                <Link href="#contact" className="flex items-center gap-2">
+                  <Handshake className="h-5 w-5" />
+                  Become a Partner
+                </Link>
+              </Button>
+            </div>
+            <div className="bg-black/50 border border-white/10 p-6">
+              <h4 className="text-xl font-bold text-white mb-4">Partner Benefits</h4>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-green-500 font-bold">1</span>
+                  </div>
+                  <div>
+                    <h5 className="font-medium text-white mb-1">Co-Development Opportunities</h5>
+                    <p className="text-sm text-white/80">Work with us to develop and test new technologies in a real-world AI data center environment.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-green-500 font-bold">2</span>
+                  </div>
+                  <div>
+                    <h5 className="font-medium text-white mb-1">Preferred Access</h5>
+                    <p className="text-sm text-white/80">Get priority access to AI computing resources and infrastructure.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-green-500 font-bold">3</span>
+                  </div>
+                  <div>
+                    <h5 className="font-medium text-white mb-1">Brand Association</h5>
+                    <p className="text-sm text-white/80">Associate your brand with Europe's most sustainable AI data center.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-
-        <div ref={sectionRef} className="mt-20 text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="bg-zinc-900 border border-zinc-800 rounded-none p-8 md:p-12"
-          >
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to Join Our Vision?</h3>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-              For institutional investors, venture capital firms, and strategic partners, we offer customized investment packages. 
-              Contact our investment relations team to discuss opportunities.
-            </p>
-            <Button 
-              asChild 
-              size="lg" 
-              className="bg-green-500 text-black hover:bg-green-600 rounded-none hover:translate-y-[-2px] transition-transform"
-            >
-              <Link href="#contact" className="flex items-center">
-                Contact Investment Relations <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
-            </Button>
-          </motion.div>
-        </div>
+        </Card>
       </div>
     </section>
   );
